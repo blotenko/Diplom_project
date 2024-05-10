@@ -25,9 +25,13 @@ struct RecommendationPage: View {
                                 .resizable()
                                 .frame(width: 50, height: 50)
                                 .cornerRadius(8)
+                                .padding(.trailing, 8)
+                            
                             Text(song.title)
+                                .font(.body)
                         }
                     }
+                    .padding(.vertical, 8)
                 }
                 .padding(.horizontal)
                 
@@ -43,10 +47,10 @@ struct RecommendationPage: View {
                 }
             }
             .navigationTitle("Recommendations")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
-
 
 #Preview {
     RecommendationPage()

@@ -41,8 +41,15 @@ class SongManager: ObservableObject {
     private init() {
         songs = [
             Song(title: "Song 1", cover: "cover1", duration: "3:45", artist: "Artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false, listensCount: 0),
-            Song(title: "Song 2", cover: "cover2", duration: "2:45", artist: "Artist 2", id: 2, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song2", withExtension: "mp3")!, isLiked: false, listensCount: 0),
-                   
+                Song(title: "Song 2", cover: "cover2", duration: "2:45", artist: "Artist 2", id: 2, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song2", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+                Song(title: "Song 3", cover: "cover3", duration: "2:45", artist: "Artist 3", id: 3, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song3", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+                Song(title: "Song 4", cover: "cover4", duration: "4:20", artist: "Artist 4", id: 4, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song4", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+                Song(title: "Song 5", cover: "cover5", duration: "3:15", artist: "Artist 5", id: 5, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song5", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+                Song(title: "Song 6", cover: "cover6", duration: "3:30", artist: "Artist 6", id: 6, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song6", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+                Song(title: "Song 7", cover: "cover7", duration: "3:00", artist: "Artist 7", id: 7, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song7", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+                Song(title: "Song 8", cover: "cover8", duration: "2:55", artist: "Artist 8", id: 8, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song8", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+                Song(title: "Song 9", cover: "cover9", duration: "3:10", artist: "Artist 9", id: 9, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song9", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+                Song(title: "Song 10", cover: "cover10", duration: "4:00", artist: "Artist 10", id: 10, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song10", withExtension: "mp3")!, isLiked: false, listensCount: 0)
                ]
     }
     
@@ -64,7 +71,7 @@ class SongManager: ObservableObject {
     func recommendSongs() -> [Song] {
         
         guard let mostListenedSong = songs.max(by: { $0.listensCount < $1.listensCount }) else {
-               print("Не удалось найти песню с наибольшим количеством прослушиваний")
+               print("Error")
                return []
            }
         
@@ -110,7 +117,16 @@ class SongManager: ObservableObject {
     }
 
     func calculateSimilarity(_ trackFeatures: AudioFeatures, _ songFeatures: AudioFeatures) -> Double {
-        return 0
+        let energyDifference = abs(trackFeatures.energy - songFeatures.energy)
+        let valenceDifference = abs(trackFeatures.valence - songFeatures.valence)
+        
+        let totalDifference = energyDifference +  valenceDifference
+        
+        let maxDifference = Double(2)
+        
+        let similarity = 1.0 - (Double(totalDifference) / maxDifference)
+        
+        return similarity
     }
 
 }
@@ -161,6 +177,7 @@ struct SongPlayerPage: View {
                         }
                     }
                     self.isPlaying.toggle()
+                song.listensCount += 1
                 
             }) {
                 Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
@@ -170,9 +187,8 @@ struct SongPlayerPage: View {
                     .foregroundColor(.blue)
             }
             Button(action: {
-                            self.isLiked.toggle() // Переключение состояния лайка
+                            self.isLiked.toggle()
                             song.isLiked = self.isLiked
-                            song.listensCount += 1
                 
                         }) {
                             Image(systemName: isLiked ? "heart.fill" : "heart")

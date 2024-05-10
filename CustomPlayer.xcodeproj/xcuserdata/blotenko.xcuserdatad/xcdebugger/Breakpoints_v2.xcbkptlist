@@ -7,47 +7,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "77989151-8650-44F4-9370-2D25A1311EB3"
+            uuid = "3F295044-E342-4C6B-A854-E0C34878EB86"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomPlayer/Pages/SongPlayerPage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "recommendSongs()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "77989151-8650-44F4-9370-2D25A1311EB3 - e5551acd3dfc51e6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CustomPlayer.SongManager.recommendSongs() -&gt; Swift.Array&lt;CustomPlayer.Song&gt;"
-                  moduleName = "CustomPlayer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/blotenko/Downloads/CustomPlayer_Project/CustomPlayer/CustomPlayer/Pages/SongPlayerPage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66">
-               </Location>
-               <Location
-                  uuid = "77989151-8650-44F4-9370-2D25A1311EB3 - 6eaca6754970cefb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (CustomPlayer.Song, CustomPlayer.Song) -&gt; Swift.Bool in CustomPlayer.SongManager.recommendSongs() -&gt; Swift.Array&lt;CustomPlayer.Song&gt;"
-                  moduleName = "CustomPlayer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/blotenko/Downloads/CustomPlayer_Project/CustomPlayer/CustomPlayer/Pages/SongPlayerPage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "00E99F83-8C01-4910-B0ED-EC178CE50398"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomPlayer/Pages/SongPlayerPage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "getAudioFeatures(from:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

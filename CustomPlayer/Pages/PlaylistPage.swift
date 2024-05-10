@@ -27,17 +27,21 @@ struct PlaylistPage: View {
                     ForEach(playlists, id: \.self) { playlist in
                         NavigationLink(destination: PlaylistDetailView(playlistName: playlist.name, playlistManager: playlistManager)) {
                             Text(playlist.name)
-                                .padding(.vertical, 4)
+                                .font(.title3)
+                                .padding(.vertical, 8)
                         }
                     }
-                    //.onDelete(perform: deletePlaylist)
                 }
                 .padding(.horizontal)
                 
                 HStack {
                     TextField("Enter new playlist name", text: $newPlaylistName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
+                        .font(.body)
+                        .padding(10)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(8)
+                        .padding(.trailing, 8)
+                        
                     Button("Create") {
                         if !newPlaylistName.isEmpty {
                             playlistManager.addPlaylist(newPlaylistName)
@@ -46,6 +50,10 @@ struct PlaylistPage: View {
                             playlists = playlistManager.playlists
                         }
                     }
+                    .padding(10)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
                 }
                 .padding()
                 
@@ -55,13 +63,11 @@ struct PlaylistPage: View {
                 playlists = playlistManager.playlists
             }
             .navigationTitle("Playlists")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
-    
-    private func deletePlaylist(_ playlistName: String) {
-        playlistManager.deletePlaylist(playlistName)
-    }
 }
+
 
 struct PlaylistDetailView: View {
     var playlistName: String
@@ -71,7 +77,7 @@ struct PlaylistDetailView: View {
     @State private var isPlayerSheetPresented = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var playlistManager: PlaylistManager
-    var songManager = SongManager.shared // Добавлен экземпляр SongManager
+    var songManager = SongManager.shared
 
     var body: some View {
         VStack {
@@ -96,7 +102,7 @@ struct PlaylistDetailView: View {
         }
         .onAppear {
             songIds = playlistManager.songIds(forPlaylist: playlistName)
-            songs = songIds.compactMap { songManager.getById(id: $0) } // Получаем песни по их id
+            songs = songIds.compactMap { songManager.getById(id: $0) }
             selectedSong = songs.first
         }
         .sheet(isPresented: $isPlayerSheetPresented) {
@@ -143,7 +149,7 @@ class PlaylistManager: ObservableObject {
     func addPlaylist(_ playlistName: String) {
         let newPlaylist = Playlist(name: playlistName, songs: [])
         playlists.append(newPlaylist)
-        savePlaylists() // Сохраняем изменения
+        savePlaylists()
     }
     
     func songs(forPlaylist playlistName: String) -> [Song] {
