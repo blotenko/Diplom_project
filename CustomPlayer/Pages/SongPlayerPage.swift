@@ -30,7 +30,6 @@ class Song: Identifiable, ObservableObject {
             self.isLiked = isLiked
             self.listensCount = listensCount
         }
-    
 }
 
 class SongManager: ObservableObject {

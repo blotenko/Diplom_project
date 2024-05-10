@@ -28,6 +28,8 @@
 		7993F67B2BEE5C2300430AA0 /* song8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7993F6702BEE5C2300430AA0 /* song8.mp3 */; };
 		7993F67C2BEE5C2300430AA0 /* song9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7993F6712BEE5C2300430AA0 /* song9.mp3 */; };
 		7993F67D2BEE5C2300430AA0 /* song10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7993F6722BEE5C2300430AA0 /* song10.mp3 */; };
+		7993F67F2BEE5F3B00430AA0 /* PlaylistPageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7993F67E2BEE5F3B00430AA0 /* PlaylistPageTests.swift */; };
+		7993F6812BEE616300430AA0 /* RecommendationPageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7993F6802BEE616300430AA0 /* RecommendationPageTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		7993F6702BEE5C2300430AA0 /* song8.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song8.mp3; sourceTree = "<group>"; };
 		7993F6712BEE5C2300430AA0 /* song9.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song9.mp3; sourceTree = "<group>"; };
 		7993F6722BEE5C2300430AA0 /* song10.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song10.mp3; sourceTree = "<group>"; };
+		7993F67E2BEE5F3B00430AA0 /* PlaylistPageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPageTests.swift; sourceTree = "<group>"; };
+		7993F6802BEE616300430AA0 /* RecommendationPageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationPageTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				7913D0CD2BEB8EF60047FE32 /* CustomPlayerTests.swift */,
+				7993F67E2BEE5F3B00430AA0 /* PlaylistPageTests.swift */,
+				7993F6802BEE616300430AA0 /* RecommendationPageTests.swift */,
 			);
 			path = CustomPlayerTests;
 			sourceTree = "<group>";
@@ -338,7 +344,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7993F67F2BEE5F3B00430AA0 /* PlaylistPageTests.swift in Sources */,
 				7913D0CE2BEB8EF60047FE32 /* CustomPlayerTests.swift in Sources */,
+				7993F6812BEE616300430AA0 /* RecommendationPageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
