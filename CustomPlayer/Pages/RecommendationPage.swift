@@ -33,7 +33,7 @@ struct RecommendationPage: View {
             }
             .onAppear {
                 
-                recommendedSongs = (1...5).map { Song(title: "Song \($0)", cover: "cover\($0)", duration: "\(3 + $0):\(30 - $0)", artist: "ar", id: $0, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!) }
+                recommendedSongs = (1...5).map { Song(title: "Song \($0)", cover: "cover\($0)", duration: "\(3 + $0):\(30 - $0)", artist: "ar", id: $0, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false) }
                 
                 selectedSong = recommendedSongs.first
             }

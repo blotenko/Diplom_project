@@ -8,7 +8,7 @@
 import SwiftUI
 import AVFoundation
 
-struct Song {
+class Song: Identifiable, ObservableObject {
     var title: String
     var cover: String
     var duration: String
@@ -16,6 +16,19 @@ struct Song {
     var id: Int
     var kind: String
     var audioFileUrl: URL
+    @Published var isLiked: Bool
+    
+    init(title: String, cover: String, duration: String, artist: String, id: Int, kind: String, audioFileUrl: URL, isLiked: Bool = false) {
+            self.title = title
+            self.cover = cover
+            self.duration = duration
+            self.artist = artist
+            self.id = id
+            self.kind = kind
+            self.audioFileUrl = audioFileUrl
+            self.isLiked = isLiked
+        }
+    
 }
 
 class SongManager: ObservableObject {
@@ -25,8 +38,8 @@ class SongManager: ObservableObject {
 
     private init() {
         songs = [
-                   Song(title: "Song 1", cover: "cover1", duration: "3:45", artist: "Artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!),
-                   Song(title: "Song 2", cover: "cover2", duration: "2:45", artist: "Artist 2", id: 2, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song2", withExtension: "mp3")!),
+            Song(title: "Song 1", cover: "cover1", duration: "3:45", artist: "Artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false),
+            Song(title: "Song 2", cover: "cover2", duration: "2:45", artist: "Artist 2", id: 2, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song2", withExtension: "mp3")!, isLiked: false),
                    
                ]
     }
@@ -44,11 +57,13 @@ struct SongPlayerPage: View {
     @State private var isCreatingNewPlaylist = false
     @State private var existingPlaylists: [Playlist] = []
     @StateObject var playlistManager: PlaylistManager
-    @StateObject var songManager = SongManager.shared // Добавлен SongManager
+    @StateObject var songManager = SongManager.shared
     @State private var player: AVAudioPlayer?
+    @State private var isLiked: Bool = false
     
     init(song: Song, playlistManager: PlaylistManager) {
         self.song = song
+        self.isLiked = song.isLiked
         self._playlistManager = StateObject(wrappedValue: playlistManager)
     }
 
@@ -88,6 +103,18 @@ struct SongPlayerPage: View {
                     .frame(width: 50, height: 50)
                     .foregroundColor(.blue)
             }
+            Button(action: {
+                            self.isLiked.toggle() // Переключение состояния лайка
+                            song.isLiked = self.isLiked
+                
+                        }) {
+                            Image(systemName: isLiked ? "heart.fill" : "heart")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(isLiked ? .red : .gray)
+                        }
+                        .padding(.top, 20)
 
             
             HStack {
@@ -163,5 +190,5 @@ struct SongPlayerPage: View {
 }
 
 #Preview {
-    SongPlayerPage(song: Song(title: "Test",cover: "Test", duration: "Test", artist: "artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!), playlistManager: PlaylistManager())
+    SongPlayerPage(song: Song(title: "Test",cover: "Test", duration: "Test", artist: "artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false), playlistManager: PlaylistManager())
 }
