@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct RecommendationPage: View {
+    @StateObject var songManager = SongManager.shared
     @State private var recommendedSongs: [Song] = []
     @State private var selectedSong: Song?
     @State private var isPlayerSheetPresented = false
@@ -14,15 +15,16 @@ struct RecommendationPage: View {
     var body: some View {
         NavigationView {
             VStack {
-                
                 List(recommendedSongs, id: \.title) { song in
                     Button(action: {
-                        
                         self.selectedSong = song
                         self.isPlayerSheetPresented = true
                     }) {
                         HStack {
-                            Image(systemName: "music.note")
+                            Image(song.cover)
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .cornerRadius(8)
                             Text(song.title)
                         }
                     }
@@ -32,13 +34,10 @@ struct RecommendationPage: View {
                 Spacer()
             }
             .onAppear {
-                
-                recommendedSongs = (1...5).map { Song(title: "Song \($0)", cover: "cover\($0)", duration: "\(3 + $0):\(30 - $0)", artist: "ar", id: $0, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false) }
-                
+                recommendedSongs = songManager.recommendSongs()
                 selectedSong = recommendedSongs.first
             }
             .sheet(isPresented: $isPlayerSheetPresented) {
-                
                 if let selectedSong = self.selectedSong {
                     SongPlayerPage(song: selectedSong, playlistManager: PlaylistManager())
                 }
@@ -47,6 +46,7 @@ struct RecommendationPage: View {
         }
     }
 }
+
 
 #Preview {
     RecommendationPage()

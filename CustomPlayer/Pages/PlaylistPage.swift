@@ -187,8 +187,8 @@ struct PlaylistPage_Preview: PreviewProvider {
     static var previews: some View {
         let playlistManager = PlaylistManager()
         playlistManager.addPlaylist("My Test Playlist")
-        playlistManager.addSongToPlaylist(playlistName: "My Test Playlist", song: Song(title: "song 1", cover: "Cover 1", duration: "3:30", artist: "ar1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false))
-        playlistManager.addSongToPlaylist(playlistName: "My Test Playlist", song: Song(title: "song 2", cover: "Cover 2", duration: "4:00", artist: "ar2", id: 2, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false))
+        playlistManager.addSongToPlaylist(playlistName: "My Test Playlist", song: Song(title: "song 1", cover: "Cover 1", duration: "3:30", artist: "ar1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false, listensCount: 0))
+        playlistManager.addSongToPlaylist(playlistName: "My Test Playlist", song: Song(title: "song 2", cover: "Cover 2", duration: "4:00", artist: "ar2", id: 2, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false, listensCount: 0))
         
         return PlaylistPage()
             .environmentObject(playlistManager)

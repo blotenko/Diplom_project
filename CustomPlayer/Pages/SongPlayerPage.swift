@@ -17,8 +17,9 @@ class Song: Identifiable, ObservableObject {
     var kind: String
     var audioFileUrl: URL
     @Published var isLiked: Bool
+    var listensCount: Int
     
-    init(title: String, cover: String, duration: String, artist: String, id: Int, kind: String, audioFileUrl: URL, isLiked: Bool = false) {
+    init(title: String, cover: String, duration: String, artist: String, id: Int, kind: String, audioFileUrl: URL, isLiked: Bool = false, listensCount: Int) {
             self.title = title
             self.cover = cover
             self.duration = duration
@@ -27,6 +28,7 @@ class Song: Identifiable, ObservableObject {
             self.kind = kind
             self.audioFileUrl = audioFileUrl
             self.isLiked = isLiked
+            self.listensCount = listensCount
         }
     
 }
@@ -38,8 +40,8 @@ class SongManager: ObservableObject {
 
     private init() {
         songs = [
-            Song(title: "Song 1", cover: "cover1", duration: "3:45", artist: "Artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false),
-            Song(title: "Song 2", cover: "cover2", duration: "2:45", artist: "Artist 2", id: 2, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song2", withExtension: "mp3")!, isLiked: false),
+            Song(title: "Song 1", cover: "cover1", duration: "3:45", artist: "Artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false, listensCount: 0),
+            Song(title: "Song 2", cover: "cover2", duration: "2:45", artist: "Artist 2", id: 2, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song2", withExtension: "mp3")!, isLiked: false, listensCount: 0),
                    
                ]
     }
@@ -47,6 +49,70 @@ class SongManager: ObservableObject {
     func getById(id: Int) -> Song? {
             return songs.first { $0.id == id }
         }
+    
+    struct AudioFeatures {
+        var valence: Float
+        var energy: Float
+        
+        init(valence: Float, energy: Float) {
+            self.valence = valence
+            self.energy = energy
+        }
+    }
+
+    
+    func recommendSongs() -> [Song] {
+        
+        guard let mostListenedSong = songs.max(by: { $0.listensCount < $1.listensCount }) else {
+               print("Не удалось найти песню с наибольшим количеством прослушиваний")
+               return []
+           }
+        
+        guard let trackFeatures = getAudioFeatures(from: getById(id: mostListenedSong.id)!.audioFileUrl) else {
+            return []
+        }
+        
+        struct Recommendation {
+            var song: Song
+            var similarity: Double
+        }
+        
+        var recommendations: [Recommendation] = []
+        for song in songs {
+            if let songFeatures = getAudioFeatures(from: getById(id: mostListenedSong.id)!.audioFileUrl) {
+                let similarity = calculateSimilarity(trackFeatures, songFeatures)
+                recommendations.append(Recommendation(song: song, similarity: similarity))
+            }
+        }
+        
+       
+        recommendations.sort { $0.similarity < $1.similarity }
+        return recommendations.prefix(5).map { $0.song }
+    }
+
+    func getAudioFeatures(from fileURL: URL) -> AudioFeatures? {
+        let asset = AVURLAsset(url: fileURL)
+            
+        let audioTracks = asset.tracks(withMediaType: .audio)
+            
+         let audioTrack = audioTracks.first!
+
+         let formatDescription = audioTrack.formatDescriptions.first
+            
+        let audioStreamBasicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription as! CMAudioFormatDescription)?.pointee
+        let audioBitrate = audioStreamBasicDescription?.mBitsPerChannel ?? 0
+            
+        let format = audioTrack.mediaType.hashValue
+            
+        let audioFeatures = AudioFeatures(valence: Float(format), energy: Float(audioBitrate))
+        
+        return audioFeatures
+    }
+
+    func calculateSimilarity(_ trackFeatures: AudioFeatures, _ songFeatures: AudioFeatures) -> Double {
+        return 0
+    }
+
 }
 
 struct SongPlayerPage: View {
@@ -106,6 +172,7 @@ struct SongPlayerPage: View {
             Button(action: {
                             self.isLiked.toggle() // Переключение состояния лайка
                             song.isLiked = self.isLiked
+                            song.listensCount += 1
                 
                         }) {
                             Image(systemName: isLiked ? "heart.fill" : "heart")
@@ -190,5 +257,5 @@ struct SongPlayerPage: View {
 }
 
 #Preview {
-    SongPlayerPage(song: Song(title: "Test",cover: "Test", duration: "Test", artist: "artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false), playlistManager: PlaylistManager())
+    SongPlayerPage(song: Song(title: "Test",cover: "Test", duration: "Test", artist: "artist 1", id: 1, kind: "classic", audioFileUrl: Bundle.main.url(forResource: "song1", withExtension: "mp3")!, isLiked: false, listensCount: 0), playlistManager: PlaylistManager())
 }
